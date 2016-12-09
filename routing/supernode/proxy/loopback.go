@@ -1,7 +1,8 @@
 package proxy
 
 import (
-	context "context"
+	"context"
+
 	inet "gx/ipfs/QmRuZnMorqodado1yeTQiv1i9rmtKj29CjPSsBKM7DFXV4/go-libp2p-net"
 	dhtpb "gx/ipfs/QmUpZqxzrUoyDsgWXDri9yYgi5r5EK7J5Tan1MbgnawYLx/go-libp2p-kad-dht/pb"
 	ggio "gx/ipfs/QmZ4Qi3GaRbjcx28Sme5eMH7RQjGkt8wHxt2a65oLaeFEV/gogo-protobuf/io"
