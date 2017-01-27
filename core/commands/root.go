@@ -164,7 +164,13 @@ var rootROSubcommands = map[string]*cmds.Command{
 			"get": dag.DagGetCmd,
 		},
 	},
-	"refs":    RefsROCmd,
+	"refs": RefsROCmd,
+	"dht": &cmds.Command{
+		Subcommands: map[string]*cmds.Command{
+			"findprovs": findProvidersDhtCmd,
+			"findpeer":  findPeerDhtCmd,
+		},
+	},
 	"resolve": ResolveCmd,
 	"version": VersionCmd,
 }
