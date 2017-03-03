@@ -69,7 +69,8 @@ type AddedObject struct {
 }
 
 func NewAdder(ctx context.Context, p pin.Pinner, bs bstore.GCBlockstore, ds dag.DAGService) (*Adder, error) {
-	mr, err := mfs.NewRoot(ctx, ds, unixfs.EmptyDirNode(), nil)
+	rnode := unixfs.EmptyDirNode()
+	mr, err := mfs.NewRoot(ctx, ds, rnode, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -110,6 +111,12 @@ type Adder struct {
 	mr         *mfs.Root
 	unlocker   bs.Unlocker
 	tempRoot   *cid.Cid
+	prefix     cid.Prefix
+}
+
+func (adder *Adder) SetPrefix(prefix cid.Prefix) {
+	adder.mr.SetPrefix(prefix)
+	adder.prefix = prefix
 }
 
 func (adder *Adder) SetMfsRoot(r *mfs.Root) {
@@ -122,11 +129,13 @@ func (adder Adder) add(reader io.Reader) (node.Node, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	params := ihelper.DagBuilderParams{
 		Dagserv:   adder.dagService,
 		RawLeaves: adder.RawLeaves,
 		Maxlinks:  ihelper.DefaultLinksPerBlock,
 		NoCopy:    adder.NoCopy,
+		Prefix:    adder.prefix,
 	}
 
 	if adder.Trickle {
@@ -406,6 +415,7 @@ func (adder *Adder) addFile(file files.File) error {
 		}
 
 		dagnode := dag.NodeWithData(sdata)
+		dagnode.SetPrefix(adder.prefix)
 		_, err = adder.dagService.Add(dagnode)
 		if err != nil {
 			return err
