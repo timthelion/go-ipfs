@@ -59,7 +59,7 @@ func NewDirectory(ctx context.Context, name string, node node.Node, parent child
 }
 
 func (d *Directory) SetPrefix(prefix cid.Prefix) {
-	d.node.SetPrefix(prefix)
+	d.dirbuilder.SetPrefix(prefix)
 }
 
 // closeChild updates the child by the given name to the dag node 'nd'

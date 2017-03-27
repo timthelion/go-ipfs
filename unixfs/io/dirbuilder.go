@@ -8,6 +8,7 @@ import (
 	mdag "github.com/ipfs/go-ipfs/merkledag"
 	format "github.com/ipfs/go-ipfs/unixfs"
 	hamt "github.com/ipfs/go-ipfs/unixfs/hamt"
+	cid "gx/ipfs/QmV5gPoRsjN1Gid3LMdNZTyfCtP2DsvqEbMAmz82RmmiGk/go-cid"
 
 	node "gx/ipfs/QmYDscK7dmdo2GZ9aumS8s5auUUAH5mR1jvj5pYhWusfK7/go-ipld-node"
 )
@@ -77,6 +78,17 @@ func NewDirectoryFromNode(dserv mdag.DAGService, nd node.Node) (*Directory, erro
 	default:
 		return nil, fmt.Errorf("merkledag node was not a directory or shard")
 	}
+}
+
+// SetPrefix sets the prefix of the root node
+func (d *Directory) SetPrefix(prefix cid.Prefix) {
+	if d.dirnode != nil {
+		d.dirnode.SetPrefix(prefix)
+	}
+	// FIXME: Should we do this? -- kevina
+	//if d.shard != nil {
+	//	d.shard.SetPrefix(prefix)
+	//}
 }
 
 // AddChild adds a (name, key)-pair to the root node.

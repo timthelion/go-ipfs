@@ -236,8 +236,7 @@ You can now refer to the added file in a gateway, like so:
 		fileAdder.Silent = silent
 		fileAdder.RawLeaves = rawblks
 		fileAdder.NoCopy = nocopy
-
-		fileAdder.SetPrefix(prefix)
+		fileAdder.Prefix = prefix
 
 		if hash {
 			md := dagtest.Mock()

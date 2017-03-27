@@ -110,14 +110,6 @@ func NewRoot(parent context.Context, ds dag.DAGService, node *dag.ProtoNode, pf 
 	return root, nil
 }
 
-// SetCidVersion sets the CidVersion of the root node, and any
-// children created.  To just set the CID version of future children,
-// set CidVersion directly
-func (kr *Root) SetPrefix(prefix cid.Prefix) {
-	kr.node.SetPrefix(prefix)
-	kr.Prefix = prefix
-}
-
 func (kr *Root) GetValue() FSNode {
 	return kr.val
 }
