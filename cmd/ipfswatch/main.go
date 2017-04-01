@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"path/filepath"
 
-	commands "github.com/ipfs/go-ipfs/commands"
+	commands "github.com/ipfs/go-ipfs-cmds"
 	core "github.com/ipfs/go-ipfs/core"
 	corehttp "github.com/ipfs/go-ipfs/core/corehttp"
 	coreunix "github.com/ipfs/go-ipfs/core/coreunix"
