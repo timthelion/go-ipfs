@@ -57,7 +57,10 @@ var CatCmd = &cmds.Command{
 		re.SetLength(length)
 
 		reader := io.MultiReader(readers...)
-		re.Emit(reader)
+		err = re.Emit(reader)
+		if err != nil {
+			re.SetError(err, cmdsutil.ErrNormal)
+		}
 		re.Close()
 	},
 	PostRun: map[cmds.EncodingType]func(cmds.Request, cmds.ResponseEmitter) cmds.ResponseEmitter{
@@ -67,8 +70,12 @@ var CatCmd = &cmds.Command{
 
 			go func() {
 				if res.Length() > 0 && res.Length() < progressBarMinSize {
-					log.Debugf("cat/res.Length() == %v < progressBarMinSize", res.Length())
-					cmds.Copy(re, res)
+					log.Debugf("cat.PR.go/res.Length() == %v < progressBarMinSize", res.Length())
+					if err := cmds.Copy(re, res); err != nil {
+						re.SetError(err, cmdsutil.ErrNormal)
+						log.Debugf("cat.PR.go.if/cmd.Copy error: %s", err)
+					}
+
 					return
 				}
 
