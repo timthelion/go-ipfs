@@ -108,13 +108,13 @@ The JSON output contains type information.
 		for i, dagnode := range dagnodes {
 			dir, err := uio.NewDirectoryFromNode(nd.DAG, dagnode)
 			if err != nil {
-				res.SetError(err, cmds.ErrNormal)
+				res.SetError(err, cmdsutil.ErrNormal)
 				return
 			}
 
 			links, err := dir.Links(req.Context())
 			if err != nil {
-				res.SetError(err, cmds.ErrNormal)
+				res.SetError(err, cmdsutil.ErrNormal)
 				return
 			}
 

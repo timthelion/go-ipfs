@@ -351,7 +351,7 @@ Examples:
 				var output []mfs.NodeListing
 				names, err := fsn.ListNames(req.Context())
 				if err != nil {
-					res.SetError(err, cmds.ErrNormal)
+					res.SetError(err, cmdsutil.ErrNormal)
 					return
 				}
 

@@ -92,14 +92,14 @@ order to reclaim hard disk space.
 					}
 				}
 				if errs {
-					res.SetError(fmt.Errorf("encountered errors during gc run"), cmds.ErrNormal)
+					res.SetError(fmt.Errorf("encountered errors during gc run"), cmdsutil.ErrNormal)
 				}
 			} else {
 				err := corerepo.CollectResult(req.Context(), gcOutChan, func(k *cid.Cid) {
 					outChan <- &GcResult{Key: k}
 				})
 				if err != nil {
-					res.SetError(err, cmds.ErrNormal)
+					res.SetError(err, cmdsutil.ErrNormal)
 				}
 			}
 		}()
@@ -112,10 +112,6 @@ order to reclaim hard disk space.
 			quiet, _, err := res.Request().Option("quiet").Bool()
 			if err != nil {
 				return nil, err
-			}
-			obj, ok := v.(*corerepo.KeyRemoved)
-			if !ok {
-				return nil, u.ErrCast()
 			}
 
 			obj, ok := v.(*GcResult)

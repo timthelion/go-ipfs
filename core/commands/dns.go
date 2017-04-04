@@ -62,7 +62,7 @@ The resolver can recursively resolve:
 		}
 		output, err := resolver.ResolveN(req.Context(), name, depth)
 		if err == namesys.ErrResolveFailed {
-			res.SetError(err, cmds.ErrNotFound)
+			res.SetError(err, cmdsutil.ErrNotFound)
 			return
 		}
 		if err != nil {
