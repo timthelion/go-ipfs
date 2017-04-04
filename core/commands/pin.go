@@ -129,30 +129,19 @@ var addPinCmd = &cmds.Command{
 
 			switch out := v.(type) {
 			case *AddPinOutput:
-				added = out.Pins
-			case <-chan interface{}:
-				progressLine := false
-				for r0 := range out {
-					r := r0.(*AddPinOutput)
-					if r.Pins != nil {
-						added = r.Pins
-					} else {
-						if progressLine {
-							fmt.Fprintf(res.Stderr(), "\r")
-						}
-						fmt.Fprintf(res.Stderr(), "Fetched/Processed %d nodes", r.Progress)
-						progressLine = true
-					}
+				if out.Pins != nil {
+					added = out.Pins
+				} else {
+					fmt.Fprintf(res.Stderr(), "Fetched/Processed %d nodes\r", out.Progress)
 				}
-				if progressLine {
-					fmt.Fprintf(res.Stderr(), "\n")
-				}
+
 				if res.Error() != nil {
 					return nil, res.Error()
 				}
 			default:
 				return nil, u.ErrCast()
 			}
+
 			var pintype string
 			rec, found, _ := res.Request().Option("recursive").Bool()
 			if rec || !found {
