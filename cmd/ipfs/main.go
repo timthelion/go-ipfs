@@ -370,8 +370,7 @@ func callCommand(ctx context.Context, req cmds.Request, root *cmds.Command, cmd 
 			err = cmds.Copy(re, res)
 			log.Debug("api response copied to re, err=", err)
 			if err != nil {
-				log.Debug("callCommands returns ", err)
-				//return err
+				re.SetError(err, cmdsutil.ErrNormal)
 			}
 		}()
 	} else {
@@ -388,6 +387,7 @@ func callCommand(ctx context.Context, req cmds.Request, root *cmds.Command, cmd 
 			err := root.Call(req, re)
 			log.Debug("root.Call returned ", err)
 			if err != nil {
+				re.SetError(err, cmdsutil.ErrNormal)
 				log.Info("callCommands returns ", err)
 			}
 		}()
