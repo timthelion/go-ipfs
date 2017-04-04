@@ -96,11 +96,12 @@ The CLI will exit with one of the following values:
 var CommandsDaemonCmd = CommandsCmd(Root)
 
 var rootSubcommands = map[string]*cmds.Command{
-	"add":      AddCmd,
-	"block":    BlockCmd,
-	"cat":      CatCmd,
-	"commands": CommandsDaemonCmd,
-	"get":      GetCmd,
+	"add":       AddCmd,
+	"block":     BlockCmd,
+	"cat":       CatCmd,
+	"commands":  CommandsDaemonCmd,
+	"get":       GetCmd,
+	"filestore": FileStoreCmd,
 }
 
 var rootOldSubcommands = map[string]*oldcmds.Command{
@@ -132,7 +133,6 @@ var rootOldSubcommands = map[string]*oldcmds.Command{
 	"update":    ExternalBinary(),
 	"version":   VersionCmd,
 	"bitswap":   BitswapCmd,
-	"filestore": FileStoreCmd,
 }
 
 // RootRO is the readonly version of Root
