@@ -404,21 +404,6 @@ func callCommand(ctx context.Context, req cmds.Request, root *cmds.Command, cmd 
 	}
 
 	return err
-
-	/*
-		if ere, ok := re.(cmds.Header); ok {
-			log.Debugf("calling Head()on re of type %T", re)
-			h := ere.Head()
-
-			log.Debug("final head:", h)
-
-			if err := h.Error(); err != nil {
-				return err
-			}
-		} else {
-			log.Debug("ResponseEmitter can't Head()")
-		}
-	*/
 }
 
 // commandDetails returns a command's details for the command given by |path|
