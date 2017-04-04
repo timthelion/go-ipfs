@@ -40,7 +40,7 @@ var CatCmd = &cmds.Command{
 		}
 
 		readers, length, err := cat(req.Context(), node, req.Arguments())
-		log.Debug("cat returned ", err)
+		log.Debug("cat returned ", readers, length, err)
 
 		if err != nil {
 			re.SetError(err, cmdsutil.ErrNormal)
@@ -62,6 +62,7 @@ var CatCmd = &cmds.Command{
 	},
 	PostRun: map[cmds.EncodingType]func(cmds.Request, cmds.ResponseEmitter) cmds.ResponseEmitter{
 		cmds.CLI: func(req cmds.Request, re cmds.ResponseEmitter) cmds.ResponseEmitter {
+			log.Debug("PostRun ohai")
 			re_, res := cmds.NewChanResponsePair(req)
 
 			go func() {
@@ -83,19 +84,23 @@ var CatCmd = &cmds.Command{
 						re.SetError(res.Error(), cmdsutil.ErrNormal)
 					}
 
+					log.Debug("PostRun.go Next err=", err)
 					return
 				}
 
 				r, ok := v.(io.Reader)
 				if !ok {
 					re.SetError(fmt.Sprintf("expected io.Reader, not %T", v), cmdsutil.ErrNormal)
+					log.Debug("PostRun.go cast to io.Reader failed")
 					return
 				}
 
 				bar, reader := progressBarForReader(os.Stderr, r, int64(res.Length()))
 				bar.Start()
 
+				log.Debug("PostRun.go.Emit()...")
 				re.Emit(reader)
+				log.Debug("PostRun.go.Emit()...done")
 			}()
 
 			return re_
@@ -107,12 +112,14 @@ func cat(ctx context.Context, node *core.IpfsNode, paths []string) ([]io.Reader,
 	readers := make([]io.Reader, 0, len(paths))
 	length := uint64(0)
 	for _, fpath := range paths {
+		log.Debug("cat.for: adding ", fpath)
 		read, err := coreunix.Cat(ctx, node, fpath)
 		if err != nil {
 			return nil, 0, err
 		}
 		readers = append(readers, read)
 		length += uint64(read.Size())
+		log.Debug("cat.for: added reader of size", read.Size())
 	}
 	return readers, length, nil
 }
