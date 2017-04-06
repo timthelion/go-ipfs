@@ -160,7 +160,7 @@ Headers.
 		cmdsutil.BoolOption(offlineKwd, "Run offline. Do not connect to the rest of the network but provide local API.").Default(false),
 		cmdsutil.BoolOption(migrateKwd, "If true, assume yes at the migrate prompt. If false, assume no."),
 		cmdsutil.BoolOption(enableFloodSubKwd, "Instantiate the ipfs daemon with the experimental pubsub feature enabled."),
-		cmdsutil.BoolOption(enableMultiplexKwd, "Add the experimental 'go-multiplex' stream muxer to libp2p on construction."),
+		cmdsutil.BoolOption(enableMultiplexKwd, "Add the experimental 'go-multiplex' stream muxer to libp2p on construction.").Default(true),
 
 		// TODO: add way to override addresses. tricky part: updating the config if also --init.
 		// cmdsutil.StringOption(apiAddrKwd, "Address for the daemon rpc API (overrides config)"),
